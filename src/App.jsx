@@ -710,13 +710,15 @@ function AutocompleteInput({ value, onChange, onSubmit, placeholder, candidates,
   const [isComposing, setIsComposing] = useState(false); // 한글 조합 중 여부
   const wrapRef = useRef(null);
 
-  // 후보 필터링: 입력값이 포함된 이름들 (중복 당첨 제외)
-  const query = value.trim().toLowerCase();
+  // 후보 필터링: 이름에 숫자/괄호/특수문자 모두 포함 가능
+  // 쿼리는 앞뒤 공백만 제거하고 원본 그대로 비교 (toLowerCase는 영문에만 영향)
+  const query = (value || "").trim();
+  const queryLower = query.toLowerCase();
   const filtered = query.length === 0
     ? []
     : candidates
         .filter(name => !excludeNames.has(name))
-        .filter(name => name.toLowerCase().includes(query))
+        .filter(name => String(name).toLowerCase().includes(queryLower))
         .slice(0, 8);
 
   // 외부 클릭 시 드롭다운 닫기
@@ -777,14 +779,15 @@ function AutocompleteInput({ value, onChange, onSubmit, placeholder, candidates,
 
   const highlight = (name) => {
     if (!query) return name;
-    const lowerName = name.toLowerCase();
-    const idx = lowerName.indexOf(query);
+    const lowerName = String(name).toLowerCase();
+    const idx = lowerName.indexOf(queryLower);
     if (idx === -1) return name;
+    const nameStr = String(name);
     return (
       <>
-        {name.slice(0, idx)}
-        <span className="ac-match">{name.slice(idx, idx + query.length)}</span>
-        {name.slice(idx + query.length)}
+        {nameStr.slice(0, idx)}
+        <span className="ac-match">{nameStr.slice(idx, idx + query.length)}</span>
+        {nameStr.slice(idx + query.length)}
       </>
     );
   };
@@ -844,8 +847,8 @@ export default function App() {
   const [announcingList, setAnnouncingList] = useState(null); // 순위표 발표용
   const [toastMsg, setToastMsg] = useState("");
 
-  // 파생 상태
-  const allNames = initialText.split(/[\n,，\t]+/).map(n=>n.trim()).filter(n=>n.length>0);
+  // 파생 상태 - 오직 줄바꿈으로만 구분 (이름에 숫자/공백/특수문자 모두 허용)
+  const allNames = initialText.split(/\r?\n/).map(n=>n.trim()).filter(n=>n.length>0);
   const allWinners = rounds.flatMap(r => r.winners);
   const wonNames = new Set(allWinners.map(w => w.name));
   const remainingNames = allNames.filter(n => !wonNames.has(n));
@@ -1057,7 +1060,7 @@ export default function App() {
             <div className="pool-wrap">
               <textarea
                 className="pool-textarea"
-                placeholder={"전체 참가자 명단을 입력해 주세요\n한 줄에 한 명씩\n\n홍길동\n김철수\n이영희\n..."}
+                placeholder={"전체 참가자 명단을 입력해 주세요\n한 줄에 한 명씩\n\n9803(조)\n9804(김)\n9805(이)\n..."}
                 value={initialText}
                 onChange={e => setInitialText(e.target.value)}
               />
