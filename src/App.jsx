@@ -703,124 +703,129 @@ function Particles() {
   );
 }
 
-export default function App() {
-  // 자동완성 입력 컴포넌트
-  const AutocompleteInput = ({ value, onChange, onSubmit, placeholder, candidates, excludeNames }) => {
-    const [showDropdown, setShowDropdown] = useState(false);
-    const [selectedIdx, setSelectedIdx] = useState(0);
-    const wrapRef = useRef(null);
+// 자동완성 입력 컴포넌트 (App 밖에 정의해서 리마운트 방지 → 한글 IME 정상 동작)
+function AutocompleteInput({ value, onChange, onSubmit, placeholder, candidates, excludeNames }) {
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [selectedIdx, setSelectedIdx] = useState(0);
+  const [isComposing, setIsComposing] = useState(false); // 한글 조합 중 여부
+  const wrapRef = useRef(null);
 
-    // 후보 필터링: 입력값이 포함된 이름들 (중복 당첨 제외)
-    const query = value.trim().toLowerCase();
-    const filtered = query.length === 0
-      ? []
-      : candidates
-          .filter(name => !excludeNames.has(name))
-          .filter(name => name.toLowerCase().includes(query))
-          .slice(0, 8);
+  // 후보 필터링: 입력값이 포함된 이름들 (중복 당첨 제외)
+  const query = value.trim().toLowerCase();
+  const filtered = query.length === 0
+    ? []
+    : candidates
+        .filter(name => !excludeNames.has(name))
+        .filter(name => name.toLowerCase().includes(query))
+        .slice(0, 8);
 
-    // 외부 클릭 시 드롭다운 닫기
-    useEffect(() => {
-      const handleClickOutside = (e) => {
-        if (wrapRef.current && !wrapRef.current.contains(e.target)) {
-          setShowDropdown(false);
-        }
-      };
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
-
-    // 입력값 변경 시 드롭다운 다시 열기
-    useEffect(() => {
-      if (query.length > 0 && filtered.length > 0) {
-        setShowDropdown(true);
-        setSelectedIdx(0);
-      } else {
+  // 외부 클릭 시 드롭다운 닫기
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (wrapRef.current && !wrapRef.current.contains(e.target)) {
         setShowDropdown(false);
       }
-    }, [value]);
-
-    const handleKeyDown = (e) => {
-      if (showDropdown && filtered.length > 0) {
-        if (e.key === 'ArrowDown') {
-          e.preventDefault();
-          setSelectedIdx((selectedIdx + 1) % filtered.length);
-        } else if (e.key === 'ArrowUp') {
-          e.preventDefault();
-          setSelectedIdx((selectedIdx - 1 + filtered.length) % filtered.length);
-        } else if (e.key === 'Enter' || e.key === 'Tab') {
-          e.preventDefault();
-          const selected = filtered[selectedIdx];
-          onChange(selected);
-          setShowDropdown(false);
-          // Enter면 바로 발표
-          if (e.key === 'Enter' && onSubmit) {
-            setTimeout(() => onSubmit(selected), 50);
-          }
-        } else if (e.key === 'Escape') {
-          setShowDropdown(false);
-        }
-      } else if (e.key === 'Enter' && onSubmit) {
-        onSubmit(value);
-      }
     };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
-    const handleSelect = (name) => {
-      onChange(name);
+  // 입력값 변경 시 드롭다운 다시 열기
+  useEffect(() => {
+    if (query.length > 0 && filtered.length > 0) {
+      setShowDropdown(true);
+      setSelectedIdx(0);
+    } else {
       setShowDropdown(false);
-      if (onSubmit) {
-        setTimeout(() => onSubmit(name), 50);
+    }
+  }, [value]);
+
+  const handleKeyDown = (e) => {
+    // 한글 조합 중에는 키 이벤트 무시 (IME 정상 동작)
+    if (isComposing || e.nativeEvent.isComposing || e.keyCode === 229) return;
+
+    if (showDropdown && filtered.length > 0) {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        setSelectedIdx((selectedIdx + 1) % filtered.length);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        setSelectedIdx((selectedIdx - 1 + filtered.length) % filtered.length);
+      } else if (e.key === 'Enter' || e.key === 'Tab') {
+        e.preventDefault();
+        const selected = filtered[selectedIdx];
+        onChange(selected);
+        setShowDropdown(false);
+        if (e.key === 'Enter' && onSubmit) {
+          setTimeout(() => onSubmit(selected), 50);
+        }
+      } else if (e.key === 'Escape') {
+        setShowDropdown(false);
       }
-    };
+    } else if (e.key === 'Enter' && onSubmit) {
+      onSubmit(value);
+    }
+  };
 
-    // 쿼리 하이라이트 (매칭 부분 골드색)
-    const highlight = (name) => {
-      if (!query) return name;
-      const lowerName = name.toLowerCase();
-      const idx = lowerName.indexOf(query);
-      if (idx === -1) return name;
-      return (
-        <>
-          {name.slice(0, idx)}
-          <span className="ac-match">{name.slice(idx, idx + query.length)}</span>
-          {name.slice(idx + query.length)}
-        </>
-      );
-    };
+  const handleSelect = (name) => {
+    onChange(name);
+    setShowDropdown(false);
+    if (onSubmit) {
+      setTimeout(() => onSubmit(name), 50);
+    }
+  };
 
+  const highlight = (name) => {
+    if (!query) return name;
+    const lowerName = name.toLowerCase();
+    const idx = lowerName.indexOf(query);
+    if (idx === -1) return name;
     return (
-      <div className="autocomplete-wrap" ref={wrapRef}>
-        <input
-          type="text"
-          className="winner-row-input"
-          placeholder={placeholder}
-          value={value}
-          onChange={e => onChange(e.target.value)}
-          onKeyDown={handleKeyDown}
-          onFocus={() => query.length > 0 && filtered.length > 0 && setShowDropdown(true)}
-        />
-        {showDropdown && (
-          <div className="autocomplete-dropdown">
-            {filtered.length === 0 ? (
-              <div className="ac-empty">일치하는 이름이 없습니다</div>
-            ) : (
-              filtered.map((name, i) => (
-                <div
-                  key={name}
-                  className={`ac-item ${i === selectedIdx ? 'selected' : ''}`}
-                  onClick={() => handleSelect(name)}
-                  onMouseEnter={() => setSelectedIdx(i)}
-                >
-                  <span>{highlight(name)}</span>
-                  {i === selectedIdx && <span className="ac-hint">Enter</span>}
-                </div>
-              ))
-            )}
-          </div>
-        )}
-      </div>
+      <>
+        {name.slice(0, idx)}
+        <span className="ac-match">{name.slice(idx, idx + query.length)}</span>
+        {name.slice(idx + query.length)}
+      </>
     );
   };
+
+  return (
+    <div className="autocomplete-wrap" ref={wrapRef}>
+      <input
+        type="text"
+        className="winner-row-input"
+        placeholder={placeholder}
+        value={value}
+        onChange={e => onChange(e.target.value)}
+        onKeyDown={handleKeyDown}
+        onCompositionStart={() => setIsComposing(true)}
+        onCompositionEnd={() => setIsComposing(false)}
+        onFocus={() => query.length > 0 && filtered.length > 0 && setShowDropdown(true)}
+      />
+      {showDropdown && (
+        <div className="autocomplete-dropdown">
+          {filtered.length === 0 ? (
+            <div className="ac-empty">일치하는 이름이 없습니다</div>
+          ) : (
+            filtered.map((name, i) => (
+              <div
+                key={name}
+                className={`ac-item ${i === selectedIdx ? 'selected' : ''}`}
+                onClick={() => handleSelect(name)}
+                onMouseEnter={() => setSelectedIdx(i)}
+              >
+                <span>{highlight(name)}</span>
+                {i === selectedIdx && <span className="ac-hint">Enter</span>}
+              </div>
+            ))
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default function App() {
 
   // 전체 명단 & 현재 참가자 풀
   const [initialText, setInitialText] = useState("");
@@ -834,10 +839,9 @@ export default function App() {
   const [inputs, setInputs] = useState([""]);
 
   // 발표 화면 상태
-  const [phase, setPhase] = useState("standby"); // standby | drumroll | single | ranking
+  const [phase, setPhase] = useState("standby"); // standby | single | ranking
   const [announcingName, setAnnouncingName] = useState(null); // 단일 발표용
   const [announcingList, setAnnouncingList] = useState(null); // 순위표 발표용
-  const [drumName, setDrumName] = useState("");
   const [toastMsg, setToastMsg] = useState("");
 
   // 파생 상태
@@ -911,20 +915,6 @@ export default function App() {
       alert(`"${name}" 님은 이미 당첨된 참가자입니다.\n(중복 당첨은 불가합니다)`);
       return;
     }
-
-    // 드럼롤
-    setPhase("drumroll");
-    const allChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ가나다라마바사아자차카타파하김이박최정";
-    const iv = setInterval(() => {
-      const len = 3 + Math.floor(Math.random()*2);
-      let s = "";
-      for (let i = 0; i < len; i++) s += allChars[Math.floor(Math.random()*allChars.length)];
-      setDrumName(s);
-    }, 60);
-
-    await new Promise(r => setTimeout(r, 1800));
-    clearInterval(iv);
-    setDrumName("");
 
     // 해당 라운드 찾거나 새로 생성
     const existingRound = rounds.find(r => r.round === currentRound);
@@ -1238,17 +1228,6 @@ export default function App() {
                 ? "모든 참가자의 추첨이 완료되었습니다"
                 : `Round ${currentRound}  ·  ${remainingNames.length}명 중에서 추첨`}
             </div>
-          </div>
-        )}
-
-        {phase === "drumroll" && (
-          <div className="drumroll">
-            <div className="pulse-ring"/>
-            <div className="pulse-ring"/>
-            <div className="pulse-ring"/>
-            <div className="drumroll-label">Now Announcing</div>
-            <div className="drumroll-label-ko">두 구 두 구 두 구</div>
-            <div className="drumroll-text">{drumName || "···"}</div>
           </div>
         )}
 
