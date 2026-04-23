@@ -38,11 +38,6 @@ const css = `
     60%  { transform:scale(1.04) translateY(-6px); filter:blur(0); }
     100% { opacity:1; transform:scale(1) translateY(0); }
   }
-  @keyframes name-reveal {
-    0%   { opacity:0; transform:scale(0.75); letter-spacing:40px; filter:blur(12px); }
-    60%  { opacity:1; filter:blur(0); letter-spacing:14px; }
-    100% { opacity:1; transform:scale(1); letter-spacing:10px; }
-  }
   @keyframes rise {
     0%   { opacity:0; transform:translateY(10px); }
     100% { opacity:1; transform:translateY(0); }
@@ -50,10 +45,6 @@ const css = `
   @keyframes float-particle {
     0%,100% { transform:translateY(0) translateX(0); opacity:0.3; }
     50%     { transform:translateY(-20px) translateX(10px); opacity:0.8; }
-  }
-  @keyframes sparkle {
-    0%,100% { opacity:0; transform:scale(0.5) rotate(0deg); }
-    50%     { opacity:1; transform:scale(1) rotate(180deg); }
   }
   @keyframes pulse-dot {
     0%,100% { opacity:0.3; transform:scale(1); }
@@ -79,10 +70,8 @@ const css = `
   .silk-lines {
     position:absolute; inset:0; pointer-events:none; opacity:0.03; z-index:1;
     background:
-      repeating-linear-gradient(115deg, transparent, transparent 100px, rgba(228,189,108,1) 100px, rgba(228,189,108,1) 101px),
-      repeating-linear-gradient(65deg, transparent, transparent 160px, rgba(228,189,108,0.5) 160px, rgba(228,189,108,0.5) 161px);
+      repeating-linear-gradient(115deg, transparent, transparent 100px, rgba(228,189,108,1) 100px, rgba(228,189,108,1) 101px);
   }
-
   .particles { position:absolute; inset:0; pointer-events:none; z-index:1; }
   .particle {
     position:absolute; border-radius:50%;
@@ -109,8 +98,7 @@ const css = `
   .diamond-orn {
     position:absolute; width:6px; height:6px;
     background: var(--gold-300); transform: rotate(45deg);
-    z-index:7; pointer-events:none;
-    box-shadow: 0 0 12px rgba(228,189,108,0.6);
+    z-index:7; pointer-events:none; box-shadow: 0 0 12px rgba(228,189,108,0.6);
   }
   .diamond-orn.tl { top:38px; left:38px; }
   .diamond-orn.tr { top:38px; right:38px; }
@@ -119,37 +107,33 @@ const css = `
 
   /* ━━━ 왼쪽 패널 ━━━ */
   .left-panel {
-    width:28%; min-width: 340px;
+    width:26%; min-width: 320px;
     display:flex; flex-direction:column;
-    padding:36px 28px 28px;
+    padding:32px 26px 24px;
     position:relative; z-index:3;
     background: linear-gradient(180deg, rgba(5,11,26,0.85) 0%, rgba(5,11,26,0.65) 100%);
     backdrop-filter: blur(10px);
     border-right: 1px solid rgba(212,168,64,0.12);
     overflow-y: auto;
   }
-  .left-panel::after {
-    content:''; position:absolute; right:-1px; top:80px; bottom:80px; width:1px;
-    background: linear-gradient(180deg, transparent, rgba(228,189,108,0.5), transparent);
-  }
 
-  .brand { text-align:center; margin-bottom:22px; animation: fadeDown 0.8s ease both; flex-shrink:0; }
-  .brand-eyebrow { font-family: var(--font); font-size:9px; font-weight:300; color: var(--gold-400); letter-spacing:10px; text-transform:uppercase; margin-bottom:10px; opacity:0.8; }
-  .brand-line-top { width:36px; height:1px; margin:0 auto 14px; background: linear-gradient(90deg, transparent, var(--gold-300), transparent); }
-  .brand-year { font-family: var(--font); font-size:13px; font-weight:300; color: var(--gold-200); letter-spacing:7px; margin-bottom:3px; }
-  .brand-name { font-family: var(--font); font-size:12px; font-weight:400; color: var(--gold-100); letter-spacing:5px; text-transform:uppercase; margin-bottom:2px; }
+  .brand { text-align:center; margin-bottom:18px; animation: fadeDown 0.8s ease both; flex-shrink:0; }
+  .brand-eyebrow { font-family: var(--font); font-size:9px; font-weight:300; color: var(--gold-400); letter-spacing:10px; text-transform:uppercase; margin-bottom:8px; opacity:0.8; }
+  .brand-line-top { width:36px; height:1px; margin:0 auto 12px; background: linear-gradient(90deg, transparent, var(--gold-300), transparent); }
+  .brand-year { font-family: var(--font); font-size:12px; font-weight:300; color: var(--gold-200); letter-spacing:7px; margin-bottom:2px; }
+  .brand-name { font-family: var(--font); font-size:11px; font-weight:400; color: var(--gold-100); letter-spacing:5px; text-transform:uppercase; margin-bottom:2px; }
   .brand-main {
-    font-family: var(--font); font-size:34px; font-weight:700;
+    font-family: var(--font); font-size:30px; font-weight:700;
     line-height:1; letter-spacing:5px; text-transform:uppercase;
     background: linear-gradient(135deg, #f5e6bf 0%, #e4bd6c 40%, #d4a840 60%, #e4bd6c 100%);
     background-size: 200% auto;
     -webkit-background-clip: text; background-clip: text; color: transparent;
-    margin-bottom:10px;
+    margin-bottom:8px;
     animation: shimmer 6s linear infinite;
   }
   .brand-seminar {
     display:inline-block;
-    font-family: var(--font); font-size:9px; font-weight:500;
+    font-family: var(--font); font-size:8px; font-weight:500;
     color: var(--cream); letter-spacing:5px; text-transform:uppercase;
     padding:6px 14px;
     border-top: 1px solid rgba(228,189,108,0.3);
@@ -170,11 +154,7 @@ const css = `
   }
   .sec-label::after { content:''; flex:1; height:1px; background: linear-gradient(90deg, rgba(228,189,108,0.3), transparent); }
 
-  .textarea-wrap {
-    flex:1; min-height:120px; position:relative;
-    animation: fadeUp 0.7s ease both;
-    display:flex;
-  }
+  .textarea-wrap { flex:1; min-height:100px; position:relative; animation: fadeUp 0.7s ease both; display:flex; }
   .textarea {
     width:100%; height:100%;
     background: linear-gradient(180deg, rgba(10,18,40,0.7) 0%, rgba(10,18,40,0.5) 100%);
@@ -185,14 +165,13 @@ const css = `
     line-height: 1.9; letter-spacing: 0.5px;
     transition: all 0.3s ease;
   }
-  .textarea:focus { border-color: rgba(228,189,108,0.5); box-shadow: 0 0 0 1px rgba(228,189,108,0.15), inset 0 0 20px rgba(228,189,108,0.04); }
+  .textarea:focus { border-color: rgba(228,189,108,0.5); box-shadow: 0 0 0 1px rgba(228,189,108,0.15); }
   .textarea::placeholder { color: rgba(248,241,221,0.15); font-size: 11px; font-weight: 200; line-height: 1.9; }
 
   .count-info {
     display:flex; align-items:center; justify-content:space-between;
     margin-top:10px; padding: 9px 12px;
-    background: rgba(10,18,40,0.4);
-    border: 1px solid rgba(212,168,64,0.12);
+    background: rgba(10,18,40,0.4); border: 1px solid rgba(212,168,64,0.12);
     animation: fadeUp 0.7s 0.1s ease both;
   }
   .count-stat { display:flex; flex-direction:column; align-items:center; gap:2px; flex:1; }
@@ -203,8 +182,7 @@ const css = `
   .draw-count-row {
     display:flex; align-items:center; justify-content:space-between;
     margin-top: 10px; padding: 9px 12px;
-    background: rgba(10,18,40,0.4);
-    border: 1px solid rgba(212,168,64,0.12);
+    background: rgba(10,18,40,0.4); border: 1px solid rgba(212,168,64,0.12);
     animation: fadeUp 0.7s 0.15s ease both;
   }
   .dc-label { font-family: var(--font); font-size: 9px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--gold-300); }
@@ -217,6 +195,7 @@ const css = `
     transition: all 0.15s ease;
   }
   .dc-btn:hover { background: rgba(228,189,108,0.1); border-color: rgba(228,189,108,0.5); color: var(--gold-50); }
+  .dc-btn:disabled { opacity: 0.3; cursor: not-allowed; }
   .dc-val {
     width: 44px; height: 28px;
     border-top: 1px solid rgba(212,168,64,0.25); border-bottom: 1px solid rgba(212,168,64,0.25);
@@ -225,20 +204,16 @@ const css = `
     color: var(--gold-100); text-align: center; line-height: 28px; letter-spacing: 1px;
   }
 
-  /* 맵 선택 */
   .map-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin-top: 8px;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 8px; margin-top: 8px;
     animation: fadeUp 0.7s 0.18s ease both;
   }
   .map-card {
     padding: 10px 8px;
     background: rgba(10,18,40,0.5);
     border: 1px solid rgba(212,168,64,0.15);
-    cursor: pointer;
-    transition: all 0.2s ease;
+    cursor: pointer; transition: all 0.2s ease;
     text-align: center;
   }
   .map-card:hover { background: rgba(228,189,108,0.05); border-color: rgba(228,189,108,0.4); }
@@ -247,11 +222,8 @@ const css = `
     border-color: var(--gold-400);
     box-shadow: 0 0 16px rgba(228,189,108,0.2), inset 0 0 12px rgba(228,189,108,0.05);
   }
-  .map-icon {
-    width: 100%; height: 36px;
-    display: flex; align-items: center; justify-content: center;
-    margin-bottom: 4px;
-  }
+  .map-card.disabled { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+  .map-icon { width: 100%; height: 36px; display: flex; align-items: center; justify-content: center; margin-bottom: 4px; }
   .map-icon svg { width: 100%; height: 100%; }
   .map-name {
     font-family: var(--font); font-size: 9px; font-weight: 500;
@@ -260,7 +232,7 @@ const css = `
   .map-card.active .map-name { color: var(--gold-50); }
 
   .draw-btn {
-    width: 100%; padding: 15px; margin-top: 14px;
+    width: 100%; padding: 14px; margin-top: 12px;
     background: linear-gradient(135deg, rgba(228,189,108,0.08) 0%, rgba(212,168,64,0.12) 50%, rgba(228,189,108,0.08) 100%);
     border: 1px solid var(--gold-400);
     cursor: pointer;
@@ -282,8 +254,7 @@ const css = `
     font-family: var(--font); font-size: 8px; font-weight: 400;
     letter-spacing: 4px; text-transform: uppercase;
     color: rgba(212,168,64,0.25);
-    transition: all 0.2s;
-    flex-shrink:0;
+    transition: all 0.2s; flex-shrink:0;
   }
   .reset-btn:hover { color: rgba(255,140,140,0.7); border-color: rgba(255,140,140,0.25); }
 
@@ -293,7 +264,7 @@ const css = `
     display: flex; flex-direction: column;
     align-items: center; justify-content: center;
     position: relative; z-index: 2;
-    padding: 40px;
+    padding: 32px;
   }
 
   .standby { text-align: center; animation: fadeIn 0.8s ease both; }
@@ -303,8 +274,7 @@ const css = `
 
   .standby .eyebrow { font-family: var(--font); font-size: 0.85vw; font-weight: 400; letter-spacing: 12px; text-transform: uppercase; color: var(--gold-300); margin-bottom: 28px; opacity: 0.85; animation: fadeUp 0.8s 0.2s ease both; }
   .standby .title {
-    font-family: var(--font);
-    font-size: 7vw; font-weight: 700;
+    font-family: var(--font); font-size: 7vw; font-weight: 700;
     line-height: 0.95; letter-spacing: 0.14em; text-transform: uppercase;
     margin-bottom: 28px;
     background: linear-gradient(135deg, #faf1d8 0%, #f5e6bf 20%, #e4bd6c 40%, #d4a840 55%, #e4bd6c 70%, #f5e6bf 90%, #faf1d8 100%);
@@ -331,20 +301,35 @@ const css = `
     display: flex; flex-direction: column;
     animation: fadeIn 0.5s ease both;
   }
-  .game-header { text-align: center; margin-bottom: 10px; animation: fadeDown 0.5s ease both; }
-  .game-title {
-    font-family: var(--font); font-size: 1.3vw; font-weight: 600;
-    letter-spacing: 7px; text-transform: uppercase;
-    color: var(--gold-200); margin-bottom: 3px;
+  .game-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 12px; animation: fadeDown 0.5s ease both;
+    padding: 0 4px;
   }
-  .game-subtitle { font-family: var(--font-ko); font-size: 0.72vw; font-weight: 300; letter-spacing: 4px; color: rgba(228,189,108,0.5); }
+  .game-title-block { text-align: left; }
+  .game-title {
+    font-family: var(--font); font-size: 1.2vw; font-weight: 600;
+    letter-spacing: 7px; text-transform: uppercase;
+    color: var(--gold-200); margin-bottom: 2px;
+  }
+  .game-subtitle { font-family: var(--font-ko); font-size: 0.7vw; font-weight: 300; letter-spacing: 3px; color: rgba(228,189,108,0.5); }
+
+  .live-counter {
+    display: flex; align-items: center; gap: 16px;
+    font-family: var(--font); font-size: 10px; font-weight: 400;
+    color: var(--gold-300); letter-spacing: 3px; text-transform: uppercase;
+  }
+  .live-counter .dot { width: 7px; height: 7px; border-radius: 50%; background: #ff5c5c; animation: pulse-dot 1s infinite; box-shadow: 0 0 12px rgba(255,92,92,0.6); }
+  .live-counter .num {
+    font-family: var(--font); font-size: 18px; font-weight: 700;
+    color: var(--gold-50); letter-spacing: 1px; line-height: 1;
+  }
+  .live-counter .div { width: 1px; height: 18px; background: rgba(228,189,108,0.25); }
 
   .game-body {
-    flex: 1;
-    display: grid;
-    grid-template-columns: 1fr 220px;
-    gap: 16px;
-    min-height: 0;
+    flex: 1; display: grid;
+    grid-template-columns: 1fr 240px;
+    gap: 14px; min-height: 0;
   }
 
   .canvas-wrap {
@@ -357,6 +342,46 @@ const css = `
   }
   .game-canvas { display: block; width: 100%; height: 100%; }
 
+  /* 카메라 추적 표시 (왼쪽 위 오버레이) */
+  .cam-info {
+    position: absolute; top: 14px; left: 14px;
+    background: rgba(5,11,26,0.85);
+    border: 1px solid rgba(228,189,108,0.3);
+    padding: 8px 14px;
+    z-index: 5;
+    animation: fadeIn 0.5s ease both;
+  }
+  .cam-label {
+    font-family: var(--font); font-size: 8px; font-weight: 500;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gold-400); margin-bottom: 3px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .cam-label::before {
+    content: ''; width: 4px; height: 4px; border-radius: 50%;
+    background: var(--gold-300); animation: pulse-dot 1.2s infinite;
+  }
+  .cam-name {
+    font-family: var(--font-ko); font-size: 14px; font-weight: 500;
+    color: var(--cream); letter-spacing: 2px;
+  }
+
+  /* 진행률 바 (오른쪽 가장자리) */
+  .progress-bar {
+    position: absolute; top: 14px; right: 14px; bottom: 14px;
+    width: 6px;
+    background: rgba(228,189,108,0.1);
+    border: 1px solid rgba(228,189,108,0.2);
+    overflow: hidden;
+    z-index: 5;
+  }
+  .progress-fill {
+    position: absolute; left: 0; right: 0; top: 0;
+    background: linear-gradient(180deg, var(--gold-400), var(--gold-300));
+    box-shadow: 0 0 12px rgba(228,189,108,0.5);
+    transition: height 0.3s ease;
+  }
+
   /* 실시간 랭킹 패널 */
   .rank-panel {
     background: linear-gradient(180deg, rgba(10,18,40,0.6) 0%, rgba(10,18,40,0.4) 100%);
@@ -364,15 +389,14 @@ const css = `
     padding: 14px 12px;
     display: flex; flex-direction: column;
     animation: fadeUp 0.5s 0.2s ease both;
+    overflow: hidden;
   }
   .rank-title {
-    font-family: var(--font);
-    font-size: 9px; font-weight: 600;
+    font-family: var(--font); font-size: 9px; font-weight: 600;
     letter-spacing: 4px; text-transform: uppercase;
     color: var(--gold-300);
     text-align: center;
-    padding-bottom: 10px;
-    margin-bottom: 8px;
+    padding-bottom: 10px; margin-bottom: 8px;
     border-bottom: 1px solid rgba(228,189,108,0.15);
     display: flex; align-items: center; justify-content: center; gap: 6px;
   }
@@ -381,6 +405,17 @@ const css = `
     background: var(--gold-300); transform: rotate(45deg);
     box-shadow: 0 0 6px rgba(228,189,108,0.6);
   }
+
+  .winners-section {
+    padding-bottom: 8px; margin-bottom: 8px;
+    border-bottom: 1px dashed rgba(228,189,108,0.2);
+  }
+  .winners-section .section-lbl {
+    font-family: var(--font); font-size: 7px; font-weight: 600;
+    color: var(--gold-400); letter-spacing: 3px; text-transform: uppercase;
+    margin-bottom: 6px; opacity: 0.7;
+  }
+
   .rank-list { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 4px; }
   .rank-list::-webkit-scrollbar { width: 3px; }
   .rank-list::-webkit-scrollbar-thumb { background: rgba(228,189,108,0.3); }
@@ -393,56 +428,44 @@ const css = `
     animation: rank-in 0.3s ease both;
     transition: all 0.3s ease;
   }
-  .rank-row.top {
-    background: linear-gradient(90deg, rgba(228,189,108,0.15) 0%, rgba(228,189,108,0.05) 100%);
-    border-color: rgba(228,189,108,0.45);
-    box-shadow: 0 0 12px rgba(228,189,108,0.15);
-  }
-  .rank-row.top1 {
-    background: linear-gradient(90deg, rgba(228,189,108,0.25) 0%, rgba(228,189,108,0.08) 100%);
+  .rank-row.winner {
+    background: linear-gradient(90deg, rgba(228,189,108,0.2) 0%, rgba(228,189,108,0.05) 100%);
     border-color: var(--gold-400);
-    box-shadow: 0 0 20px rgba(228,189,108,0.3);
+    box-shadow: 0 0 16px rgba(228,189,108,0.2);
   }
-  .rank-row.eliminated { opacity: 0.35; filter: grayscale(0.3); }
+  .rank-row.winner1 {
+    background: linear-gradient(90deg, rgba(228,189,108,0.3) 0%, rgba(228,189,108,0.08) 100%);
+    border-color: var(--gold-50);
+    box-shadow: 0 0 24px rgba(228,189,108,0.4);
+  }
+  .rank-row.leader {
+    background: linear-gradient(90deg, rgba(228,189,108,0.15) 0%, rgba(228,189,108,0.03) 100%);
+    border-color: rgba(228,189,108,0.45);
+  }
 
   .rank-num {
     font-family: var(--font); font-size: 12px; font-weight: 700;
     color: var(--gold-200); width: 22px; text-align: center;
     letter-spacing: 0.5px;
   }
-  .rank-row.top1 .rank-num { color: var(--gold-50); font-size: 13px; }
-  .rank-row.eliminated .rank-num { color: rgba(228,189,108,0.4); }
+  .rank-row.winner1 .rank-num { color: var(--gold-50); font-size: 13px; }
 
   .rank-color {
     width: 8px; height: 8px; border-radius: 50%;
-    flex-shrink: 0;
-    border: 1px solid rgba(255,255,255,0.4);
+    flex-shrink: 0; border: 1px solid rgba(255,255,255,0.4);
   }
   .rank-name {
     font-family: var(--font-ko); font-size: 11px; font-weight: 400;
     color: var(--cream); letter-spacing: 1px;
-    flex: 1;
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
-  .rank-row.top1 .rank-name { color: var(--white); font-weight: 500; }
+  .rank-row.winner1 .rank-name { color: var(--white); font-weight: 500; }
 
   .rank-status {
-    font-family: var(--font); font-size: 8px; font-weight: 500;
+    font-family: var(--font); font-size: 8px; font-weight: 600;
     letter-spacing: 1px; text-transform: uppercase;
-    color: rgba(228,189,108,0.5);
+    color: var(--gold-300);
   }
-  .rank-row.eliminated .rank-status { color: rgba(255,100,100,0.5); }
-
-  /* 하단 게임 정보 */
-  .game-footer {
-    display:flex; justify-content: space-between; align-items: center;
-    padding: 10px 4px 0;
-    font-family: var(--font); font-size: 9px; font-weight: 300;
-    color: var(--gold-300); letter-spacing: 3px; text-transform: uppercase;
-  }
-  .game-footer .left { display: flex; align-items: center; gap: 10px; }
-  .game-footer .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold-300); animation: pulse-dot 1.2s infinite; }
-  .game-footer .counter { color: var(--gold-50); font-weight: 600; font-size: 11px; }
 
   /* 당첨자 발표 오버레이 */
   .winner-overlay {
@@ -452,88 +475,31 @@ const css = `
     backdrop-filter: blur(8px);
     animation: fadeIn 0.4s ease both;
   }
-  .winner-screen { text-align: center; max-width: 900px; padding: 40px; animation: winner-reveal 0.8s cubic-bezier(0.22,1,0.36,1) both; position: relative; }
-  .sparkle { position: absolute; font-family: var(--font); color: var(--gold-200); opacity: 0; animation: sparkle 2s ease-in-out infinite; text-shadow: 0 0 12px rgba(228,189,108,0.8); pointer-events: none; }
-  .sparkle.s1 { top: 15%; left: 15%; animation-delay: 0.4s; font-size: 14px; }
-  .sparkle.s2 { top: 25%; right: 18%; animation-delay: 0.7s; font-size: 18px; }
-  .sparkle.s3 { bottom: 30%; left: 20%; animation-delay: 1s; font-size: 12px; }
-  .sparkle.s4 { top: 40%; right: 12%; animation-delay: 1.3s; font-size: 16px; }
-  .sparkle.s5 { bottom: 20%; right: 25%; animation-delay: 0.2s; font-size: 13px; }
 
-  .w-top-orn { display: flex; align-items: center; justify-content: center; gap: 20px; margin-bottom: 24px; animation: fadeDown 0.6s 0.3s ease both; }
-  .w-top-orn .line { width: 100px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-300), transparent); }
-  .w-top-orn .diamond { width: 7px; height: 7px; background: var(--gold-300); transform: rotate(45deg); box-shadow: 0 0 12px rgba(228,189,108,0.8); }
-
-  .w-label { font-family: var(--font); font-size: 0.95vw; font-weight: 600; letter-spacing: 14px; text-transform: uppercase; color: var(--gold-300); margin-bottom: 10px; animation: rise 0.5s 0.4s ease both; }
-  .w-label-ko { font-family: var(--font-ko); font-size: 0.95vw; font-weight: 200; letter-spacing: 10px; color: rgba(228,189,108,0.55); margin-bottom: 30px; animation: rise 0.5s 0.5s ease both; }
-
-  .w-rank-big {
-    font-family: var(--font); font-size: 0.9vw; font-weight: 700;
-    letter-spacing: 10px; text-transform: uppercase;
-    color: var(--gold-50); margin-bottom: 16px;
-    padding: 8px 28px;
-    display: inline-block;
-    background: linear-gradient(135deg, rgba(228,189,108,0.2), rgba(228,189,108,0.08));
-    border: 1px solid var(--gold-400);
-    animation: rise 0.5s 0.35s ease both;
-  }
-
-  .w-name-wrap { position: relative; padding: 40px 0; margin-bottom: 32px; }
-  .w-name-wrap::before, .w-name-wrap::after {
-    content: ''; position: absolute; left: 50%; transform: translateX(-50%);
-    width: 200px; height: 1px;
-    background: linear-gradient(90deg, transparent, var(--gold-300), transparent);
-  }
-  .w-name-wrap::before { top: 0; }
-  .w-name-wrap::after  { bottom: 0; }
-
-  .w-name {
-    font-family: var(--font-ko); font-size: 7.5vw; font-weight: 700;
-    letter-spacing: 10px; line-height: 1;
-    animation: name-reveal 1s cubic-bezier(0.22,1,0.36,1) 0.3s both;
-    background: linear-gradient(180deg, #ffffff 0%, #f8f1dd 100%);
-    -webkit-background-clip: text; background-clip: text; color: transparent;
-    filter: drop-shadow(0 0 40px rgba(228,189,108,0.3));
-  }
-
-  .next-btn {
-    padding: 14px 48px;
-    background: rgba(228,189,108,0.04);
-    border: 1px solid var(--gold-400);
-    cursor: pointer;
-    font-family: var(--font); font-size: 0.85vw; font-weight: 600;
-    letter-spacing: 6px; text-transform: uppercase;
-    color: var(--gold-100);
-    transition: all 0.3s;
-    animation: rise 0.6s 1.1s ease both;
-    margin-top: 16px;
-  }
-  .next-btn:hover { background: rgba(228,189,108,0.14); color: var(--gold-50); transform: translateY(-1px); }
-
-  /* ━━━ 전체 결과 화면 (모든 라운드 완료 시) ━━━ */
   .final-results {
-    text-align: center; animation: fadeIn 0.5s ease both;
-    max-width: 760px; margin: 0 auto;
+    text-align: center; max-width: 760px;
+    animation: winner-reveal 0.8s cubic-bezier(0.22,1,0.36,1) both;
+    position: relative; padding: 20px;
   }
-  .final-top-orn { display: flex; align-items: center; justify-content: center; gap: 18px; margin-bottom: 24px; }
-  .final-top-orn .line { width: 90px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-300), transparent); }
+  .final-top-orn { display: flex; align-items: center; justify-content: center; gap: 18px; margin-bottom: 20px; }
+  .final-top-orn .line { width: 80px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-300), transparent); }
   .final-top-orn .diamond { width: 7px; height: 7px; background: var(--gold-300); transform: rotate(45deg); box-shadow: 0 0 12px rgba(228,189,108,0.8); }
 
   .final-title {
-    font-family: var(--font); font-size: 3vw; font-weight: 700;
+    font-family: var(--font); font-size: 2.6vw; font-weight: 700;
     letter-spacing: 8px; text-transform: uppercase;
     background: linear-gradient(135deg, #faf1d8, #e4bd6c, #d4a840, #e4bd6c, #faf1d8);
     background-size: 200% auto;
     -webkit-background-clip: text; background-clip: text; color: transparent;
     animation: shimmer 4s linear infinite;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
-  .final-subtitle { font-family: var(--font-ko); font-size: 0.9vw; font-weight: 300; letter-spacing: 8px; color: var(--cream); margin-bottom: 40px; }
+  .final-subtitle { font-family: var(--font-ko); font-size: 0.85vw; font-weight: 300; letter-spacing: 8px; color: var(--cream); margin-bottom: 30px; }
 
-  .final-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 36px; }
+  .final-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 26px; }
   .final-row {
     display: grid; grid-template-columns: 80px 1fr auto; align-items: center;
-    gap: 24px; padding: 18px 32px;
+    gap: 24px; padding: 16px 28px;
     background: linear-gradient(90deg, rgba(10,18,40,0.6), rgba(10,18,40,0.3));
     border: 1px solid rgba(228,189,108,0.15);
     animation: rank-in 0.5s ease both;
@@ -552,28 +518,39 @@ const css = `
     border-color: rgba(205,127,50,0.4);
   }
   .final-rank-num {
-    font-family: var(--font); font-size: 32px; font-weight: 700;
-    color: var(--gold-200); letter-spacing: 1px;
-    line-height: 1;
+    font-family: var(--font); font-size: 30px; font-weight: 700;
+    color: var(--gold-200); letter-spacing: 1px; line-height: 1;
   }
-  .final-row.gold .final-rank-num { color: var(--gold-50); font-size: 36px; }
+  .final-row.gold .final-rank-num { color: var(--gold-50); font-size: 34px; }
   .final-rank-label {
     font-family: var(--font); font-size: 9px; font-weight: 500;
     color: var(--gold-400); letter-spacing: 3px; text-transform: uppercase;
     display: block; margin-bottom: 2px;
   }
   .final-name {
-    font-family: var(--font-ko); font-size: 26px; font-weight: 500;
-    color: var(--cream); letter-spacing: 4px;
-    text-align: left;
+    font-family: var(--font-ko); font-size: 24px; font-weight: 500;
+    color: var(--cream); letter-spacing: 4px; text-align: left;
   }
-  .final-row.gold .final-name { font-size: 32px; color: var(--white); font-weight: 600; }
+  .final-row.gold .final-name { font-size: 30px; color: var(--white); font-weight: 600; }
   .final-badge {
     font-family: var(--font); font-size: 10px; font-weight: 500;
     color: var(--gold-300); letter-spacing: 3px; text-transform: uppercase;
     padding: 6px 14px;
     border: 1px solid rgba(228,189,108,0.3);
   }
+
+  .next-btn {
+    padding: 14px 48px;
+    background: rgba(228,189,108,0.04);
+    border: 1px solid var(--gold-400);
+    cursor: pointer;
+    font-family: var(--font); font-size: 0.85vw; font-weight: 600;
+    letter-spacing: 6px; text-transform: uppercase;
+    color: var(--gold-100);
+    transition: all 0.3s; margin-top: 8px;
+    animation: rise 0.6s 0.8s ease both;
+  }
+  .next-btn:hover { background: rgba(228,189,108,0.14); color: var(--gold-50); transform: translateY(-1px); }
 
   .confetti-wrap { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 15; }
   .cp { position: absolute; animation: confetti-fall 2.5s ease forwards; }
@@ -586,7 +563,6 @@ if (!document.getElementById("ld-style")) {
   document.head.appendChild(el);
 }
 
-// 샴페인 컨페티
 const CC = ["#faf1d8","#f5e6bf","#e4bd6c","#d4a840","#b8922e","#ffffff","#f8f1dd"];
 function Confetti({ active }) {
   if (!active) return null;
@@ -622,8 +598,7 @@ function Particles() {
         <div key={p.id} className="particle" style={{
           left:`${p.left}%`, top:`${p.top}%`,
           width: p.size, height: p.size,
-          animationDelay: `${p.delay}s`,
-          animationDuration: `${p.duration}s`,
+          animationDelay: `${p.delay}s`, animationDuration: `${p.duration}s`,
         }}/>
       ))}
     </div>
@@ -631,342 +606,399 @@ function Particles() {
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// 맵 빌더 — 4종 맵 정의
+// 맵 정의 - 긴 트랙 (화면보다 훨씬 긴 세로 맵)
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 const MAPS = {
   zigzag: {
-    id: "zigzag",
-    name: "Zigzag",
-    nameKo: "지그재그",
+    id: "zigzag", name: "Zigzag", nameKo: "지그재그",
     icon: (
       <svg viewBox="0 0 40 30">
-        <line x1="4" y1="8"  x2="36" y2="12" stroke="currentColor" strokeWidth="1.5"/>
-        <line x1="36" y1="16" x2="4"  y2="20" stroke="currentColor" strokeWidth="1.5"/>
-        <line x1="4"  y1="24" x2="36" y2="26" stroke="currentColor" strokeWidth="1.5"/>
+        <line x1="4" y1="6"  x2="36" y2="11" stroke="currentColor" strokeWidth="1.5"/>
+        <line x1="36" y1="14" x2="4"  y2="19" stroke="currentColor" strokeWidth="1.5"/>
+        <line x1="4"  y1="22" x2="36" y2="26" stroke="currentColor" strokeWidth="1.5"/>
       </svg>
     ),
   },
   pachinko: {
-    id: "pachinko",
-    name: "Pachinko",
-    nameKo: "파친코",
+    id: "pachinko", name: "Pachinko", nameKo: "파친코",
     icon: (
       <svg viewBox="0 0 40 30">
-        {[8,20,32].map(x => [6,14,22].map(y => (
-          <circle key={`${x}-${y}`} cx={x+((y%8===6)?4:0)} cy={y} r="1.2" fill="currentColor"/>
+        {[6,12,18,24].map(y => [0,1,2,3,4,5].map(c => (
+          <circle key={`${c}-${y}`} cx={4+c*7+(y%12===6?3:0)} cy={y} r="1.2" fill="currentColor"/>
         )))}
       </svg>
     ),
   },
   spiral: {
-    id: "spiral",
-    name: "Spiral",
-    nameKo: "스파이럴",
+    id: "spiral", name: "Cascade", nameKo: "캐스케이드",
     icon: (
       <svg viewBox="0 0 40 30">
-        <path d="M 4 8 L 36 8 L 36 14 L 8 14 L 8 20 L 32 20 L 32 26" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+        <path d="M 4 6 L 36 6 L 36 12 L 8 12 L 8 18 L 32 18 L 32 24" stroke="currentColor" strokeWidth="1.5" fill="none"/>
       </svg>
     ),
   },
   maze: {
-    id: "maze",
-    name: "Maze",
-    nameKo: "미로",
+    id: "maze", name: "Funnel", nameKo: "퍼널",
     icon: (
       <svg viewBox="0 0 40 30">
-        <line x1="8" y1="4" x2="8" y2="18" stroke="currentColor" strokeWidth="1.5"/>
-        <line x1="20" y1="10" x2="20" y2="26" stroke="currentColor" strokeWidth="1.5"/>
-        <line x1="32" y1="4" x2="32" y2="20" stroke="currentColor" strokeWidth="1.5"/>
-        <line x1="8" y1="18" x2="20" y2="18" stroke="currentColor" strokeWidth="1.5"/>
-        <line x1="20" y1="10" x2="32" y2="10" stroke="currentColor" strokeWidth="1.5"/>
+        <line x1="2" y1="6" x2="14" y2="14" stroke="currentColor" strokeWidth="1.5"/>
+        <line x1="38" y1="6" x2="26" y2="14" stroke="currentColor" strokeWidth="1.5"/>
+        <line x1="14" y1="14" x2="14" y2="22" stroke="currentColor" strokeWidth="1.5"/>
+        <line x1="26" y1="14" x2="26" y2="22" stroke="currentColor" strokeWidth="1.5"/>
+        <line x1="14" y1="22" x2="20" y2="28" stroke="currentColor" strokeWidth="1.5"/>
+        <line x1="26" y1="22" x2="20" y2="28" stroke="currentColor" strokeWidth="1.5"/>
       </svg>
     ),
   },
 };
 
-function buildMap(mapId, W, H, Bodies, World, world) {
+// 긴 트랙 빌드 - mapH는 화면 높이 H의 배수
+function buildLongMap(mapId, W, H, mapH, Bodies, World, world) {
   const wallOpts = {
     isStatic: true,
     render: { fillStyle: 'rgba(228,189,108,0.15)', strokeStyle: 'rgba(228,189,108,0.6)', lineWidth: 1.5 },
   };
   const slopeOpts = {
-    isStatic: true, friction: 0.005,
-    render: { fillStyle: 'rgba(228,189,108,0.3)', strokeStyle: 'rgba(228,189,108,0.7)', lineWidth: 1 },
+    isStatic: true, friction: 0.001,
+    render: { fillStyle: 'rgba(228,189,108,0.35)', strokeStyle: 'rgba(228,189,108,0.75)', lineWidth: 1.2 },
   };
   const pegOpts = {
     isStatic: true,
-    render: { fillStyle: 'rgba(228,189,108,0.25)', strokeStyle: 'rgba(228,189,108,0.8)', lineWidth: 1 },
+    render: { fillStyle: 'rgba(228,189,108,0.3)', strokeStyle: 'rgba(228,189,108,0.85)', lineWidth: 1 },
   };
 
-  // 공통: 외곽 벽
-  const walls = [
-    Bodies.rectangle(-5, H/2, 10, H*2, wallOpts),
-    Bodies.rectangle(W+5, H/2, 10, H*2, wallOpts),
+  // 외곽 벽 (긴 맵)
+  World.add(world, [
+    Bodies.rectangle(-5, mapH/2, 10, mapH*2, wallOpts),
+    Bodies.rectangle(W+5, mapH/2, 10, mapH*2, wallOpts),
     Bodies.rectangle(W/2, -5, W*2, 10, wallOpts),
-  ];
-  World.add(world, walls);
+  ]);
 
   const obstacles = [];
+  const startY = 80;
+  const endY = mapH - 200;
 
   if (mapId === "zigzag") {
-    const slopeCount = 5;
-    const slopeH = H / (slopeCount + 2);
+    // 긴 트랙에 지그재그 경사판 많이
+    const slopeCount = Math.floor((endY - startY) / 110);
     for (let i = 0; i < slopeCount; i++) {
-      const y = slopeH * (i + 1) + 40;
+      const y = startY + i * 110 + 30;
       const isLeft = i % 2 === 0;
-      const slopeLen = W * 0.72;
-      const angle = isLeft ? 0.16 : -0.16;
-      const cx = isLeft ? slopeLen/2 + 20 : W - slopeLen/2 - 20;
-      obstacles.push(Bodies.rectangle(cx, y, slopeLen, 6, { ...slopeOpts, angle }));
+      const slopeLen = W * 0.78;
+      const angle = isLeft ? 0.18 : -0.18;
+      const cx = isLeft ? slopeLen/2 + 15 : W - slopeLen/2 - 15;
+      obstacles.push(Bodies.rectangle(cx, y, slopeLen, 7, { ...slopeOpts, angle }));
     }
-    // 중간 페그
-    const pegRows = 3;
+    // 페그도 추가 (튕김 효과)
+    const pegRows = Math.floor((endY - startY) / 90);
     for (let r = 0; r < pegRows; r++) {
-      const y = (slopeH * 1.5) + r * slopeH * 1.4;
-      if (y > H - 140) break;
-      const cols = r % 2 === 0 ? 6 : 7;
+      const y = startY + r * 90 + 75;
+      if (y > endY) break;
+      const cols = 5;
       for (let c = 0; c < cols; c++) {
-        const x = (W / (cols + 1)) * (c + 1) + (r % 2 === 0 ? 20 : 0);
-        if (x < 40 || x > W - 40) continue;
-        obstacles.push(Bodies.circle(x, y + slopeH*0.7, 4, pegOpts));
+        const x = (W / (cols + 1)) * (c + 1) + (r % 2 === 0 ? 25 : -10);
+        if (x < 30 || x > W - 30) continue;
+        obstacles.push(Bodies.circle(x, y, 5, pegOpts));
       }
     }
   }
   else if (mapId === "pachinko") {
-    // 빽빽한 핀 그리드
-    const startY = 80;
-    const endY = H - 140;
-    const rowCount = 10;
-    const rowH = (endY - startY) / rowCount;
+    // 긴 트랙에 빽빽한 핀
+    const rowH = 50;
+    const rowCount = Math.floor((endY - startY) / rowH);
     for (let r = 0; r < rowCount; r++) {
       const y = startY + r * rowH;
-      const cols = 9;
+      const cols = 10;
       const offset = r % 2 === 0 ? 0 : (W / cols) / 2;
       for (let c = 0; c < cols; c++) {
         const x = (W / (cols + 1)) * (c + 1) + offset;
-        if (x < 20 || x > W - 20) continue;
+        if (x < 25 || x > W - 25) continue;
         obstacles.push(Bodies.circle(x, y, 5, pegOpts));
       }
     }
-    // 분할 벽 (좌우로 튕기도록)
-    obstacles.push(Bodies.rectangle(W * 0.3, H * 0.35, 3, 60, { ...wallOpts, angle: 0.4 }));
-    obstacles.push(Bodies.rectangle(W * 0.7, H * 0.55, 3, 60, { ...wallOpts, angle: -0.4 }));
+    // 중간중간 가속용 경사
+    const accelCount = Math.floor((endY - startY) / 400);
+    for (let i = 0; i < accelCount; i++) {
+      const y = startY + 350 + i * 400;
+      if (y > endY) break;
+      obstacles.push(Bodies.rectangle(W * 0.3, y, 80, 4, { ...wallOpts, angle: 0.5 }));
+      obstacles.push(Bodies.rectangle(W * 0.7, y + 50, 80, 4, { ...wallOpts, angle: -0.5 }));
+    }
   }
   else if (mapId === "spiral") {
-    // 나선형 선반 (좌우 번갈아 긴 선반)
-    const shelfCount = 6;
-    const shelfH = (H - 180) / shelfCount;
+    // 긴 캐스케이드 - 좌우 번갈아 긴 선반들이 폭포처럼
+    const shelfH = 130;
+    const shelfCount = Math.floor((endY - startY) / shelfH);
     for (let i = 0; i < shelfCount; i++) {
-      const y = 80 + i * shelfH;
+      const y = startY + i * shelfH;
       const isLeft = i % 2 === 0;
-      const shelfLen = W * 0.82;
-      // 살짝 기울어진 선반
-      const angle = isLeft ? 0.08 : -0.08;
-      const cx = isLeft ? shelfLen / 2 - 10 : W - shelfLen / 2 + 10;
-      obstacles.push(Bodies.rectangle(cx, y, shelfLen, 5, { ...slopeOpts, angle }));
+      const shelfLen = W * 0.85;
+      const angle = isLeft ? 0.1 : -0.1;
+      const cx = isLeft ? shelfLen / 2 - 5 : W - shelfLen / 2 + 5;
+      obstacles.push(Bodies.rectangle(cx, y, shelfLen, 6, { ...slopeOpts, angle }));
 
-      // 선반 끝 막은 벽 (떨어지는 구간만 빼고)
+      // 끝에 막은 벽 (반대쪽 끝으로 떨어지도록)
       if (isLeft) {
-        // 왼쪽으로 쭉 가다가 오른쪽 끝으로 떨어짐 - 왼쪽 끝 살짝 올라간 벽
-        obstacles.push(Bodies.rectangle(8, y - 18, 4, 30, wallOpts));
+        obstacles.push(Bodies.rectangle(8, y - 22, 5, 36, wallOpts));
       } else {
-        obstacles.push(Bodies.rectangle(W - 8, y - 18, 4, 30, wallOpts));
+        obstacles.push(Bodies.rectangle(W - 8, y - 22, 5, 36, wallOpts));
       }
     }
-    // 중앙 페그 몇 개
-    obstacles.push(Bodies.circle(W * 0.3, H * 0.25, 5, pegOpts));
-    obstacles.push(Bodies.circle(W * 0.7, H * 0.45, 5, pegOpts));
-    obstacles.push(Bodies.circle(W * 0.4, H * 0.65, 5, pegOpts));
+    // 중앙 페그 장식
+    for (let i = 0; i < shelfCount; i++) {
+      const y = startY + i * shelfH + 60;
+      obstacles.push(Bodies.circle(W/2 + (i%2===0?-30:30), y, 5, pegOpts));
+    }
   }
   else if (mapId === "maze") {
-    // 미로 스타일 - 좁은 통로들
-    // 수평 벽들 (중간에 구멍)
-    const rowCount = 5;
-    const rowH = (H - 180) / rowCount;
-    for (let i = 0; i < rowCount; i++) {
-      const y = 80 + i * rowH;
-      const gapCenter = W * (0.25 + (i % 3) * 0.25);
-      const gapWidth = 70;
+    // 퍼널 - 좁아졌다가 넓어졌다가 반복
+    const sectionH = 220;
+    const sectionCount = Math.floor((endY - startY) / sectionH);
 
-      // 왼쪽 부분
-      const leftLen = gapCenter - gapWidth/2;
-      if (leftLen > 20) {
-        obstacles.push(Bodies.rectangle(leftLen/2, y, leftLen, 5, slopeOpts));
-      }
-      // 오른쪽 부분
-      const rightStart = gapCenter + gapWidth/2;
-      const rightLen = W - rightStart;
-      if (rightLen > 20) {
-        obstacles.push(Bodies.rectangle(rightStart + rightLen/2, y, rightLen, 5, slopeOpts));
-      }
+    for (let s = 0; s < sectionCount; s++) {
+      const yBase = startY + s * sectionH;
+
+      // 깔때기 입구 (좁아짐)
+      obstacles.push(Bodies.rectangle(W*0.25, yBase + 40, W*0.45, 5, { ...slopeOpts, angle: 0.4 }));
+      obstacles.push(Bodies.rectangle(W*0.75, yBase + 40, W*0.45, 5, { ...slopeOpts, angle: -0.4 }));
+
+      // 좁은 통로
+      obstacles.push(Bodies.rectangle(W*0.35, yBase + 110, 5, 100, wallOpts));
+      obstacles.push(Bodies.rectangle(W*0.65, yBase + 110, 5, 100, wallOpts));
+
+      // 페그 장애물
+      obstacles.push(Bodies.circle(W*0.5, yBase + 100, 6, pegOpts));
+      obstacles.push(Bodies.circle(W*0.42, yBase + 160, 4, pegOpts));
+      obstacles.push(Bodies.circle(W*0.58, yBase + 160, 4, pegOpts));
     }
-
-    // 세로 가이드 벽
-    obstacles.push(Bodies.rectangle(W * 0.25, H * 0.25, 4, 80, wallOpts));
-    obstacles.push(Bodies.rectangle(W * 0.5, H * 0.5, 4, 80, wallOpts));
-    obstacles.push(Bodies.rectangle(W * 0.75, H * 0.35, 4, 80, wallOpts));
-
-    // 페그 장식
-    obstacles.push(Bodies.circle(W * 0.6, H * 0.2, 4, pegOpts));
-    obstacles.push(Bodies.circle(W * 0.35, H * 0.45, 4, pegOpts));
-    obstacles.push(Bodies.circle(W * 0.8, H * 0.6, 4, pegOpts));
   }
 
   World.add(world, obstacles);
 
-  // 공통: 하단 결승선 (탈락 센서)
-  const funnelY = H - 100;
-  const funnelLeft = Bodies.rectangle(W*0.25, funnelY, W*0.55, 4, {
-    ...slopeOpts, angle: 0.3,
-    render: { fillStyle: 'rgba(228,189,108,0.4)', strokeStyle: 'rgba(228,189,108,0.9)', lineWidth: 1.5 }
+  // 결승선 - 맵 가장 아래
+  const finishY = mapH - 60;
+  const funnelLeft = Bodies.rectangle(W*0.25, finishY - 60, W*0.55, 5, {
+    ...slopeOpts, angle: 0.35,
+    render: { fillStyle: 'rgba(228,189,108,0.5)', strokeStyle: 'rgba(228,189,108,1)', lineWidth: 2 }
   });
-  const funnelRight = Bodies.rectangle(W*0.75, funnelY, W*0.55, 4, {
-    ...slopeOpts, angle: -0.3,
-    render: { fillStyle: 'rgba(228,189,108,0.4)', strokeStyle: 'rgba(228,189,108,0.9)', lineWidth: 1.5 }
+  const funnelRight = Bodies.rectangle(W*0.75, finishY - 60, W*0.55, 5, {
+    ...slopeOpts, angle: -0.35,
+    render: { fillStyle: 'rgba(228,189,108,0.5)', strokeStyle: 'rgba(228,189,108,1)', lineWidth: 2 }
   });
-  const eliminationLine = Bodies.rectangle(W/2, H - 20, W, 4, {
+  const finishLine = Bodies.rectangle(W/2, finishY, W, 6, {
     ...wallOpts, isSensor: true, label: 'finish',
-    render: { fillStyle: 'rgba(228,189,108,0.9)', strokeStyle: 'rgba(228,189,108,1)', lineWidth: 2 }
+    render: { fillStyle: 'rgba(228,189,108,1)', strokeStyle: 'rgba(255,255,255,0.9)', lineWidth: 2 }
   });
-  const finishWallL = Bodies.rectangle(10, H - 40, 20, 80, wallOpts);
-  const finishWallR = Bodies.rectangle(W - 10, H - 40, 20, 80, wallOpts);
-  const bottomWall = Bodies.rectangle(W/2, H+5, W*2, 10, wallOpts);
+  const finishWallL = Bodies.rectangle(8, finishY - 30, 16, 70, wallOpts);
+  const finishWallR = Bodies.rectangle(W - 8, finishY - 30, 16, 70, wallOpts);
+  const bottomWall = Bodies.rectangle(W/2, mapH+5, W*2, 10, wallOpts);
 
-  World.add(world, [funnelLeft, funnelRight, eliminationLine, finishWallL, finishWallR, bottomWall]);
+  World.add(world, [funnelLeft, funnelRight, finishLine, finishWallL, finishWallR, bottomWall]);
 
-  return eliminationLine;
+  return finishLine;
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// 마블 게임
+// 마블 게임 - 카메라 추적, 긴 트랙, 즉시 종료
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-function MarbleGame({ players, winnerCount, mapId, onComplete, gameKey }) {
+function MarbleGame({ players, winnerCount, mapId, onComplete }) {
   const canvasRef = useRef(null);
-  const rankListRef = useRef([]); // 탈락 순서대로 push (먼저 탈락=꼴찌)
-  const [rankings, setRankings] = useState([]); // 실시간 순위
-  const winnersNotifiedRef = useRef(false);
+  const [winners, setWinners] = useState([]);
+  const [leaderName, setLeaderName] = useState("");
+  const [progress, setProgress] = useState(0); // 0~1: 1등 위치 비율
+  const [liveRanking, setLiveRanking] = useState([]);
+  const completedRef = useRef(false);
+  const winnersRef = useRef([]);
 
   useEffect(() => {
     if (!canvasRef.current || players.length === 0) return;
 
     const canvas = canvasRef.current;
     const parent = canvas.parentElement;
-    const W = parent.clientWidth;
-    const H = parent.clientHeight;
-    canvas.width = W;
-    canvas.height = H;
+    const VIEW_W = parent.clientWidth;   // 화면(뷰포트) 크기
+    const VIEW_H = parent.clientHeight;
+    canvas.width = VIEW_W;
+    canvas.height = VIEW_H;
 
     const { Engine, Render, Runner, World, Bodies, Body, Events } = Matter;
 
-    const engine = Engine.create();
-    engine.gravity.y = 0.9;
+    // 맵 크기: 가로는 뷰포트 그대로, 세로는 뷰포트의 3배 (긴 트랙)
+    const MAP_W = VIEW_W;
+    const MAP_H = VIEW_H * 3;
 
+    const engine = Engine.create();
+    engine.gravity.y = 1.4; // 더 빠른 중력 (스피드 업)
+    engine.timing.timeScale = 1.15; // 시뮬레이션 자체도 약간 빠르게
+
+    // Render는 직접 렌더링 안 쓰고 커스텀 렌더링
     const render = Render.create({
       canvas, engine,
-      options: { width: W, height: H, wireframes: false, background: 'transparent' }
+      options: {
+        width: VIEW_W, height: VIEW_H,
+        wireframes: false,
+        background: 'transparent',
+        hasBounds: true,
+      }
     });
 
-    // 맵 빌드
-    buildMap(mapId, W, H, Bodies, World, engine.world);
+    // 카메라 (Bounds) - 처음엔 맵 상단을 비춤
+    render.bounds.min.x = 0;
+    render.bounds.max.x = MAP_W;
+    render.bounds.min.y = 0;
+    render.bounds.max.y = VIEW_H;
 
-    // 구슬 생성
+    // 맵 빌드
+    buildLongMap(mapId, MAP_W, VIEW_H, MAP_H, Bodies, World, engine.world);
+
+    // 구슬 생성 (맵 상단에 펼쳐서 배치)
     const MARBLE_COLORS = [
       '#e4bd6c', '#d4a840', '#f5e6bf', '#b8922e',
       '#f8f1dd', '#eed398', '#faf1d8', '#c99c3d',
     ];
 
     const marbles = players.map((name, i) => {
-      const col = i % 10;
-      const row = Math.floor(i / 10);
-      const x = 30 + col * ((W - 60) / 10) + Math.random() * 8;
-      const y = 20 + row * 22 + Math.random() * 6;
+      const cols = 12;
+      const col = i % cols;
+      const row = Math.floor(i / cols);
+      const x = 30 + col * ((MAP_W - 60) / cols) + Math.random() * 6;
+      const y = 25 + row * 22 + Math.random() * 4;
       const color = MARBLE_COLORS[i % MARBLE_COLORS.length];
 
       const marble = Bodies.circle(x, y, 9, {
-        restitution: 0.55,
-        friction: 0.002,
-        frictionAir: 0.005,
-        density: 0.001,
+        restitution: 0.6,
+        friction: 0.001,
+        frictionAir: 0.002,
+        density: 0.0012,
         label: name,
         render: {
           fillStyle: color,
-          strokeStyle: 'rgba(255,255,255,0.6)',
+          strokeStyle: 'rgba(255,255,255,0.7)',
           lineWidth: 1.5,
         }
       });
       marble.customName = name;
       marble.customColor = color;
-      marble.customEliminated = false;
+      marble.customFinished = false;
+      marble.customRank = 0;
       return marble;
     });
 
     World.add(engine.world, marbles);
 
-    // 순위 관리: rankListRef는 [1등, 2등, 3등, ...] 순서로 쌓임
-    // 마블 레이스에서는 "마지막에 떨어진 사람이 1등"
-    // 탈락 = 결승선 도달 = 순위 결정
-    // 첫 탈락 = 꼴찌, 마지막 생존자 = 1등
-    // → 탈락 순서를 역순으로 뒤집어야 함
-    const eliminationOrder = []; // 탈락한 순서대로 push
-
+    // ━━━ 결승선 도달 → 즉시 우승 처리 ━━━
     Events.on(engine, 'collisionStart', (event) => {
+      if (completedRef.current) return;
+
       event.pairs.forEach((pair) => {
         let marble = null;
         if (pair.bodyA.label === 'finish' || pair.bodyB.label === 'finish') {
           marble = pair.bodyA.label === 'finish' ? pair.bodyB : pair.bodyA;
         }
-        if (marble && marble.customName && !marble.customEliminated) {
-          marble.customEliminated = true;
-          eliminationOrder.push({ name: marble.customName, color: marble.customColor });
 
-          setTimeout(() => {
-            try { World.remove(engine.world, marble); } catch(e){}
-          }, 100);
+        if (marble && marble.customName && !marble.customFinished) {
+          marble.customFinished = true;
+          marble.customRank = winnersRef.current.length + 1;
 
-          const alive = marbles.filter(m => !m.customEliminated);
+          const newWinner = {
+            name: marble.customName,
+            color: marble.customColor,
+            rank: marble.customRank,
+          };
+          winnersRef.current = [...winnersRef.current, newWinner];
+          setWinners([...winnersRef.current]);
 
-          // 현재 랭킹 업데이트
-          // 남아있는 구슬들 = 상위권 후보 (위에 있을수록 높은 등수)
-          // 탈락한 구슬들 = 나중에 탈락할수록 높은 등수
-          const aliveSorted = [...alive].sort((a,b) => a.position.y - b.position.y)
-            .map(m => ({ name: m.customName, color: m.customColor, status: 'alive' }));
-          const eliminated = [...eliminationOrder].reverse()
-            .map(e => ({ ...e, status: 'eliminated' }));
-          setRankings([...aliveSorted, ...eliminated]);
+          // 결승선 통과한 구슬은 시각적으로 강조 (그대로 두되 색상 진하게)
+          marble.render.lineWidth = 3;
+          marble.render.strokeStyle = '#faf1d8';
 
-          // 마지막 1명 → 1등 확정
-          if (alive.length === 1 && !winnersNotifiedRef.current) {
-            winnersNotifiedRef.current = true;
-            const winnerMarble = alive[0];
-            eliminationOrder.push({ name: winnerMarble.customName, color: winnerMarble.customColor });
-
-            // 최종 순위: eliminationOrder 역순 (마지막 탈락=1등)
-            const finalRanking = [...eliminationOrder].reverse();
-
+          // ★ N명 채워지면 즉시 게임 종료 ★
+          if (winnersRef.current.length >= winnerCount) {
+            completedRef.current = true;
             setTimeout(() => {
-              onComplete(finalRanking.slice(0, winnerCount));
-            }, 1200);
+              onComplete([...winnersRef.current]);
+            }, 1500);
           }
         }
       });
     });
 
-    // afterRender: 이름 + 선두 링
+    // ━━━ 카메라 추적 + 커스텀 렌더링 ━━━
+    let cameraY = 0;
+    let lastUiUpdate = 0;
+
+    Events.on(render, 'beforeRender', () => {
+      // 1등 후보 = 아직 도달 못한 구슬 중 가장 아래쪽 (가장 진행이 빠른)
+      const racing = marbles.filter(m => !m.customFinished);
+
+      let leaderY = cameraY + VIEW_H * 0.4;
+      let leader = null;
+
+      if (racing.length > 0) {
+        leader = racing.reduce((lead, m) => m.position.y > lead.position.y ? m : lead, racing[0]);
+        leaderY = leader.position.y;
+      } else if (winnersRef.current.length > 0) {
+        // 모두 도달했으면 결승선 비춤
+        leaderY = MAP_H - 100;
+      }
+
+      // 카메라 목표 위치: 1등 구슬을 화면의 35% 지점에 (앞을 좀 더 보여주기)
+      let targetCameraY = leaderY - VIEW_H * 0.35;
+
+      // 카메라 범위 제한
+      targetCameraY = Math.max(0, Math.min(MAP_H - VIEW_H, targetCameraY));
+
+      // 부드러운 이동 (LERP)
+      cameraY += (targetCameraY - cameraY) * 0.08;
+
+      // 카메라 적용 (Render bounds)
+      render.bounds.min.y = cameraY;
+      render.bounds.max.y = cameraY + VIEW_H;
+      render.bounds.min.x = 0;
+      render.bounds.max.x = MAP_W;
+
+      // UI 업데이트 (200ms마다)
+      const now = Date.now();
+      if (now - lastUiUpdate > 200) {
+        lastUiUpdate = now;
+        if (leader) setLeaderName(leader.customName);
+        // 진행도 (0~1)
+        const totalDistance = MAP_H - 100;
+        setProgress(Math.min(1, leaderY / totalDistance));
+
+        // 실시간 랭킹: 도달자 + 남은 구슬을 y 좌표 큰 순(맵 아래쪽 = 진행 많이)
+        const finished = winnersRef.current;
+        const racingSorted = racing
+          .slice()
+          .sort((a, b) => b.position.y - a.position.y)
+          .slice(0, 12)
+          .map(m => ({ name: m.customName, color: m.customColor, status: 'racing' }));
+
+        const finishedFormatted = finished.map(w => ({
+          ...w, status: 'finished'
+        }));
+
+        setLiveRanking([...finishedFormatted, ...racingSorted]);
+      }
+    });
+
+    // afterRender: 이름 라벨 + 결승선 통과자 표시
     Events.on(render, 'afterRender', () => {
       const ctx = render.context;
       ctx.save();
 
-      const alive = marbles.filter(m => !m.customEliminated);
+      // 카메라 변환 적용
+      const scaleX = VIEW_W / (render.bounds.max.x - render.bounds.min.x);
+      const scaleY = VIEW_H / (render.bounds.max.y - render.bounds.min.y);
+      ctx.scale(scaleX, scaleY);
+      ctx.translate(-render.bounds.min.x, -render.bounds.min.y);
 
-      // 실시간 순위 업데이트 (탈락 없이도 위치 기반)
-      const aliveSorted = [...alive].sort((a,b) => a.position.y - b.position.y)
-        .map(m => ({ name: m.customName, color: m.customColor, status: 'alive' }));
-      const eliminated = [...eliminationOrder].reverse()
-        .map(e => ({ ...e, status: 'eliminated' }));
-      const currentRank = [...aliveSorted, ...eliminated];
+      const racing = marbles.filter(m => !m.customFinished);
 
-      // 이름 라벨
-      alive.forEach((m) => {
+      // 모든 살아있는 구슬에 이름
+      racing.forEach((m) => {
+        // 화면에 보이는 구슬만 라벨 (카메라 영역 + 여유)
+        if (m.position.y < render.bounds.min.y - 30 || m.position.y > render.bounds.max.y + 30) return;
+
         ctx.font = '500 11px Montserrat, "Noto Sans KR", sans-serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
@@ -978,7 +1010,7 @@ function MarbleGame({ players, winnerCount, mapId, onComplete, gameKey }) {
         const metrics = ctx.measureText(name);
         const bw = Math.max(metrics.width + 12, 24);
         const bh = 16;
-        ctx.fillStyle = 'rgba(5,11,26,0.75)';
+        ctx.fillStyle = 'rgba(5,11,26,0.8)';
         ctx.strokeStyle = m.customColor;
         ctx.lineWidth = 1;
         ctx.fillRect(x - bw/2, y - bh/2, bw, bh);
@@ -987,41 +1019,44 @@ function MarbleGame({ players, winnerCount, mapId, onComplete, gameKey }) {
         ctx.fillText(name, x, y);
       });
 
-      // 선두 링 (1등 후보)
-      if (alive.length > 1) {
-        const leaderMarble = alive.reduce((top, m) => m.position.y < top.position.y ? m : top, alive[0]);
-        ctx.strokeStyle = 'rgba(250,241,216,0.95)';
+      // 1등 후보 구슬에 빛나는 링
+      if (racing.length > 0) {
+        const leader = racing.reduce((lead, m) => m.position.y > lead.position.y ? m : lead, racing[0]);
+        ctx.strokeStyle = 'rgba(250,241,216,1)';
         ctx.lineWidth = 2.5;
         ctx.beginPath();
-        ctx.arc(leaderMarble.position.x, leaderMarble.position.y, 16, 0, Math.PI * 2);
+        ctx.arc(leader.position.x, leader.position.y, 16, 0, Math.PI * 2);
         ctx.stroke();
 
-        // 1등 관왕 표시
-        ctx.font = 'bold 9px Montserrat';
+        // 깜빡이는 외곽 링
+        ctx.strokeStyle = `rgba(228,189,108,${0.3 + 0.4 * Math.sin(Date.now()/200)})`;
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.arc(leader.position.x, leader.position.y, 22, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+
+      // 도달한 구슬에 순위 표시
+      marbles.filter(m => m.customFinished).forEach(m => {
+        if (m.position.y < render.bounds.min.y - 30 || m.position.y > render.bounds.max.y + 30) return;
+        ctx.font = 'bold 13px Montserrat';
         ctx.textAlign = 'center';
         ctx.fillStyle = '#faf1d8';
-        ctx.fillText('◆ 1st', leaderMarble.position.x, leaderMarble.position.y - 32);
-      }
+        ctx.strokeStyle = '#0a1228';
+        ctx.lineWidth = 3;
+        const text = `#${m.customRank}`;
+        ctx.strokeText(text, m.position.x, m.position.y - 24);
+        ctx.fillText(text, m.position.x, m.position.y - 24);
+      });
 
       ctx.restore();
     });
-
-    // React state 업데이트 (60fps 간격은 너무 자주이므로 500ms 간격)
-    const rankUpdateInterval = setInterval(() => {
-      const alive = marbles.filter(m => !m.customEliminated);
-      const aliveSorted = [...alive].sort((a,b) => a.position.y - b.position.y)
-        .map(m => ({ name: m.customName, color: m.customColor, status: 'alive' }));
-      const eliminated = [...eliminationOrder].reverse()
-        .map(e => ({ ...e, status: 'eliminated' }));
-      setRankings([...aliveSorted, ...eliminated]);
-    }, 400);
 
     Render.run(render);
     const runner = Runner.create();
     Runner.run(runner, engine);
 
     return () => {
-      clearInterval(rankUpdateInterval);
       try {
         Render.stop(render);
         Runner.stop(runner);
@@ -1029,33 +1064,59 @@ function MarbleGame({ players, winnerCount, mapId, onComplete, gameKey }) {
         Engine.clear(engine);
       } catch(e){}
     };
-  }, [gameKey]);
+  }, []);
 
-  const alive = rankings.filter(r => r.status === 'alive').length;
+  const racingCount = liveRanking.filter(r => r.status === 'racing').length;
+  const finishedCount = liveRanking.filter(r => r.status === 'finished').length;
 
   return (
     <div className="game-body">
       <div className="canvas-wrap">
         <canvas ref={canvasRef} className="game-canvas"/>
+
+        {/* 카메라 추적 표시 */}
+        {leaderName && (
+          <div className="cam-info">
+            <div className="cam-label">Leading</div>
+            <div className="cam-name">{leaderName}</div>
+          </div>
+        )}
+
+        {/* 진행률 바 */}
+        <div className="progress-bar">
+          <div className="progress-fill" style={{height: `${progress * 100}%`}}/>
+        </div>
       </div>
 
-      {/* 실시간 순위 패널 */}
+      {/* 실시간 랭킹 */}
       <div className="rank-panel">
         <div className="rank-title">Live Ranking</div>
+
+        {finishedCount > 0 && (
+          <div className="winners-section">
+            <div className="section-lbl">Finished  ·  {finishedCount} / {winnerCount}</div>
+            {liveRanking.filter(r => r.status === 'finished').map((r, i) => {
+              const is1 = r.rank === 1;
+              return (
+                <div key={`fin-${r.rank}`} className={`rank-row ${is1 ? 'winner1' : 'winner'}`}>
+                  <div className="rank-num">{r.rank}</div>
+                  <div className="rank-color" style={{background: r.color}}/>
+                  <div className="rank-name">{r.name}</div>
+                  <div className="rank-status">★</div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
         <div className="rank-list">
-          {rankings.slice(0, 20).map((r, i) => {
-            const rank = i + 1;
-            const isTop = rank <= winnerCount && r.status === 'alive';
-            const is1 = rank === 1 && r.status === 'alive';
+          {liveRanking.filter(r => r.status === 'racing').slice(0, 10).map((r, i) => {
+            const isLeader = i === 0;
             return (
-              <div
-                key={`${r.name}-${i}`}
-                className={`rank-row ${is1 ? 'top1' : isTop ? 'top' : ''} ${r.status==='eliminated'?'eliminated':''}`}
-              >
-                <div className="rank-num">{rank}</div>
+              <div key={`race-${r.name}`} className={`rank-row ${isLeader ? 'leader' : ''}`}>
+                <div className="rank-num">{finishedCount + i + 1}</div>
                 <div className="rank-color" style={{background: r.color}}/>
                 <div className="rank-name">{r.name}</div>
-                {r.status === 'eliminated' && <div className="rank-status">OUT</div>}
               </div>
             );
           })}
@@ -1073,11 +1134,11 @@ export default function App() {
   const [drawCount, setDrawCount] = useState(5);
   const [selectedMap, setSelectedMap] = useState("zigzag");
   const [finalWinners, setFinalWinners] = useState([]);
-  const [phase, setPhase] = useState("standby"); // standby | playing | results
+  const [phase, setPhase] = useState("standby");
   const [gameKey, setGameKey] = useState(0);
 
   const names = rawText.split(/[\n,，\t]+/).map(n=>n.trim()).filter(n=>n.length>0);
-  const canStart = names.length >= 2 && phase === "standby";
+  const canStart = names.length >= 2 && names.length >= drawCount && phase === "standby";
 
   const handleStart = () => {
     if (!canStart) return;
@@ -1092,7 +1153,13 @@ export default function App() {
   };
 
   const handleReset = () => {
+    if (phase === "playing") return;
     if (!window.confirm("결과를 초기화하고 다시 시작할까요?")) return;
+    setFinalWinners([]);
+    setPhase("standby");
+  };
+
+  const handleNewGame = () => {
     setFinalWinners([]);
     setPhase("standby");
   };
@@ -1141,10 +1208,6 @@ export default function App() {
             <div className="count-num">{drawCount}</div>
             <div className="count-lbl">Winners</div>
           </div>
-          <div className="count-stat">
-            <div className="count-num">{Math.max(0, names.length - drawCount)}</div>
-            <div className="count-lbl">Pool</div>
-          </div>
         </div>
 
         <div className="draw-count-row">
@@ -1161,7 +1224,7 @@ export default function App() {
           {Object.values(MAPS).map(m => (
             <div
               key={m.id}
-              className={`map-card ${selectedMap === m.id ? 'active' : ''}`}
+              className={`map-card ${selectedMap === m.id ? 'active' : ''} ${phase==='playing' ? 'disabled' : ''}`}
               onClick={() => phase !== "playing" && setSelectedMap(m.id)}
             >
               <div className="map-icon" style={{color: selectedMap === m.id ? '#faf1d8' : 'rgba(228,189,108,0.6)'}}>
@@ -1174,20 +1237,19 @@ export default function App() {
 
         <button className="draw-btn" onClick={handleStart} disabled={!canStart}>
           {phase === "playing"
-            ? <><span className="spin-icon">◈</span>Running</>
+            ? <><span className="spin-icon">◈</span>Racing</>
             : phase === "results" ? "Replay"
-            : "Start Game"}
+            : "Start Race"}
         </button>
 
-        {(finalWinners.length > 0 || phase === "playing") && (
-          <button className="reset-btn" onClick={handleReset} disabled={phase === "playing"}>Reset</button>
+        {(finalWinners.length > 0) && phase === "standby" && (
+          <button className="reset-btn" onClick={handleReset}>Clear Results</button>
         )}
       </div>
 
       {/* ═══ 오른쪽 ═══ */}
       <div className="right-panel">
 
-        {/* 대기 화면 */}
         {phase==="standby" && (
           <div className="standby">
             <div className="standby-top-orn">
@@ -1222,74 +1284,70 @@ export default function App() {
             <div className={names.length === 0 ? "hint ko" : "hint"}>
               {names.length===0
                 ? "좌측에 참가자 명단을 입력해 주세요"
-                : names.length < 2
-                ? "2명 이상 입력해 주세요"
-                : `${names.length}명 참가 · 상위 ${drawCount}명 당첨 · ${MAPS[selectedMap].nameKo} 맵`}
+                : names.length < drawCount
+                ? `당첨 인원(${drawCount})보다 많은 참가자가 필요합니다`
+                : `먼저 결승선에 도달한 ${drawCount}명이 당첨됩니다`}
             </div>
           </div>
         )}
 
-        {/* 게임 진행 중 */}
         {phase==="playing" && (
           <div className="game-screen">
             <div className="game-header">
-              <div className="game-title">Marble Race  ·  {MAPS[selectedMap].name}</div>
-              <div className="game-subtitle">상위 {drawCount}명이 당첨됩니다 · 끝까지 남는 순서가 순위입니다</div>
+              <div className="game-title-block">
+                <div className="game-title">Marble Race  ·  {MAPS[selectedMap].name}</div>
+                <div className="game-subtitle">먼저 결승선에 도달한 {drawCount}명이 당첨됩니다</div>
+              </div>
+              <div className="live-counter">
+                <span className="dot"/>
+                <span>LIVE</span>
+                <span className="div"/>
+                <span>Goal</span>
+                <span className="num">{drawCount}</span>
+              </div>
             </div>
             <MarbleGame
+              key={gameKey}
               players={names}
               winnerCount={drawCount}
               mapId={selectedMap}
               onComplete={handleComplete}
-              gameKey={gameKey}
             />
-            <div className="game-footer">
-              <div className="left">
-                <span className="dot"/>
-                <span>Live  ·  최후까지 남는 순서대로 순위 결정</span>
-              </div>
-              <div>
-                Winners  <span className="counter">{drawCount}</span>
-              </div>
-            </div>
           </div>
         )}
 
-        {/* 최종 결과 화면 */}
         {phase==="results" && finalWinners.length > 0 && (
-          <div className="final-results">
+          <div className="winner-overlay">
             <Confetti active={true}/>
+            <div className="final-results">
+              <div className="final-top-orn">
+                <div className="line"/><div className="diamond"/><div className="line"/>
+              </div>
+              <div className="final-title">Winners</div>
+              <div className="final-subtitle">당 첨 자 발 표</div>
 
-            <div className="final-top-orn">
-              <div className="line"/><div className="diamond"/><div className="line"/>
-            </div>
-
-            <div className="final-title">Winners</div>
-            <div className="final-subtitle">당 첨 자 발 표</div>
-
-            <div className="final-list">
-              {finalWinners.map((w, i) => {
-                const rank = i + 1;
-                const rankClass = rank === 1 ? 'gold' : rank === 2 ? 'silver' : rank === 3 ? 'bronze' : '';
-                const suffix = rank === 1 ? 'st' : rank === 2 ? 'nd' : rank === 3 ? 'rd' : 'th';
-                return (
-                  <div key={w.name} className={`final-row ${rankClass}`} style={{animationDelay: `${i * 0.15}s`}}>
-                    <div>
-                      <span className="final-rank-label">{rank}{suffix} Place</span>
-                      <div className="final-rank-num">{rank}</div>
+              <div className="final-list">
+                {finalWinners.map((w, i) => {
+                  const rank = i + 1;
+                  const rankClass = rank === 1 ? 'gold' : rank === 2 ? 'silver' : rank === 3 ? 'bronze' : '';
+                  const suffix = rank === 1 ? 'st' : rank === 2 ? 'nd' : rank === 3 ? 'rd' : 'th';
+                  return (
+                    <div key={w.name} className={`final-row ${rankClass}`} style={{animationDelay: `${i * 0.18}s`}}>
+                      <div>
+                        <span className="final-rank-label">{rank}{suffix} Place</span>
+                        <div className="final-rank-num">{rank}</div>
+                      </div>
+                      <div className="final-name">{w.name}</div>
+                      <div className="final-badge">
+                        {rank === 1 ? 'Gold' : rank === 2 ? 'Silver' : rank === 3 ? 'Bronze' : `Top ${drawCount}`}
+                      </div>
                     </div>
-                    <div className="final-name">{w.name}</div>
-                    <div className="final-badge">
-                      {rank === 1 ? 'Gold' : rank === 2 ? 'Silver' : rank === 3 ? 'Bronze' : `Top ${drawCount}`}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+                  );
+                })}
+              </div>
 
-            <button className="next-btn" onClick={handleReset}>
-              New Game
-            </button>
+              <button className="next-btn" onClick={handleNewGame}>New Race</button>
+            </div>
           </div>
         )}
       </div>
