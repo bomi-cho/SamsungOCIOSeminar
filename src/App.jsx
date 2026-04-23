@@ -303,6 +303,95 @@ const css = `
   }
   .winner-row-input::placeholder { color: rgba(248,241,221,0.15); font-size: 11px; }
 
+  /* ━━━ 구글 시트 연동 ━━━ */
+  .import-tabs {
+    display: flex; gap: 0; margin-bottom: 10px;
+    border-bottom: 1px solid rgba(228,189,108,0.15);
+  }
+  .import-tab {
+    flex: 1; padding: 10px 8px;
+    background: none; border: none; cursor: pointer;
+    font-family: var(--font); font-size: 9px; font-weight: 500;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: rgba(228,189,108,0.45);
+    transition: all 0.2s;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+  }
+  .import-tab:hover { color: var(--gold-200); }
+  .import-tab.active {
+    color: var(--gold-50);
+    border-bottom-color: var(--gold-400);
+  }
+
+  .gsheet-wrap {
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .gsheet-input {
+    width: 100%;
+    background: linear-gradient(180deg, rgba(10,18,40,0.7), rgba(10,18,40,0.5));
+    border: 1px solid rgba(212,168,64,0.18);
+    padding: 11px 14px;
+    font-family: var(--font); font-size: 11px; font-weight: 400;
+    color: var(--cream); outline: none;
+    letter-spacing: 0.5px;
+    transition: all 0.3s;
+  }
+  .gsheet-input:focus { border-color: var(--gold-400); box-shadow: 0 0 0 1px rgba(228,189,108,0.15); }
+  .gsheet-input::placeholder { color: rgba(248,241,221,0.2); font-size: 10px; }
+
+  .gsheet-status {
+    padding: 10px 14px;
+    background: rgba(10,18,40,0.5);
+    border: 1px solid rgba(228,189,108,0.15);
+    font-family: var(--font-ko); font-size: 11px; font-weight: 300;
+    color: var(--cream); letter-spacing: 0.5px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .gsheet-status.success { border-color: rgba(100,200,120,0.4); color: #b8e6c3; }
+  .gsheet-status.error { border-color: rgba(255,140,140,0.4); color: #ffc8c8; }
+  .gsheet-status.loading { border-color: rgba(228,189,108,0.4); color: var(--gold-200); }
+  .gsheet-status .icon { font-size: 12px; flex-shrink: 0; }
+  .gsheet-status .icon.spin { animation: spin 0.8s linear infinite; }
+
+  .gsheet-help {
+    padding: 10px 12px;
+    background: rgba(10,18,40,0.3);
+    border-left: 2px solid var(--gold-400);
+    font-family: var(--font-ko); font-size: 10.5px; font-weight: 300;
+    color: rgba(248,241,221,0.7); line-height: 1.7;
+    letter-spacing: 0.3px;
+  }
+  .gsheet-help .help-title {
+    font-family: var(--font); font-size: 8.5px; font-weight: 600;
+    color: var(--gold-300); letter-spacing: 3px; text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .gsheet-help .help-step {
+    display: flex; gap: 6px; margin-bottom: 2px;
+  }
+  .gsheet-help .help-num {
+    font-family: var(--font); font-size: 9.5px; font-weight: 600;
+    color: var(--gold-300); flex-shrink: 0; padding-top: 1px;
+  }
+  .gsheet-help .code {
+    font-family: monospace; font-size: 10px;
+    background: rgba(228,189,108,0.1); padding: 1px 5px;
+    color: var(--gold-100); letter-spacing: 0;
+  }
+
+  .gsheet-preview {
+    max-height: 120px; overflow-y: auto;
+    padding: 8px 12px;
+    background: rgba(10,18,40,0.4);
+    border: 1px solid rgba(228,189,108,0.15);
+    font-family: var(--font-ko); font-size: 11px; font-weight: 300;
+    color: var(--cream); line-height: 1.8;
+    letter-spacing: 0.5px;
+  }
+  .gsheet-preview::-webkit-scrollbar { width: 3px; }
+  .gsheet-preview::-webkit-scrollbar-thumb { background: rgba(228,189,108,0.3); }
+
   /* 자동완성 드롭다운 */
   .autocomplete-wrap {
     position: relative; flex: 1;
@@ -829,6 +918,15 @@ function AutocompleteInput({ value, onChange, onSubmit, placeholder, candidates,
 }
 
 export default function App() {
+  // 구글 시트 연동 상태
+  // 기본 구글 시트 URL (보미님의 OCIO 참가자 명단 시트)
+  const DEFAULT_GSHEET_URL = "https://docs.google.com/spreadsheets/d/1bz6wmkuSUFaX6DShNpcbnnfYOuBNZsTbAyDaPx09eZk/edit?usp=sharing";
+  const [importTab, setImportTab] = useState("gsheet"); // 기본 탭은 구글시트
+  const [gsheetUrl, setGsheetUrl] = useState(DEFAULT_GSHEET_URL);
+  const [gsheetStatus, setGsheetStatus] = useState(null);
+  const [gsheetMsg, setGsheetMsg] = useState("");
+  const [autoLoaded, setAutoLoaded] = useState(false);
+
 
   // 전체 명단 & 현재 참가자 풀
   const [initialText, setInitialText] = useState("");
@@ -860,6 +958,93 @@ export default function App() {
   };
 
   // ━━━ Step 1: 명단 고정 ━━━
+  // ━━━ 구글 시트에서 명단 불러오기 ━━━
+  // 구글시트 "웹에 게시" CSV URL 또는 편집 URL 모두 지원
+  const convertToCSVUrl = (url) => {
+    const trimmed = (url || "").trim();
+    if (!trimmed) return null;
+
+    // 이미 CSV export URL이면 그대로
+    if (trimmed.includes('/export?format=csv') || trimmed.includes('output=csv')) {
+      return trimmed;
+    }
+
+    // 편집 URL에서 ID 추출: /d/{ID}/edit
+    const match = trimmed.match(/\/d\/([a-zA-Z0-9-_]+)/);
+    if (match) {
+      const sheetId = match[1];
+      // gid 추출 (특정 시트 탭 지정)
+      const gidMatch = trimmed.match(/[#&?]gid=(\d+)/);
+      const gid = gidMatch ? gidMatch[1] : '0';
+      return `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`;
+    }
+
+    return trimmed; // 알 수 없는 형태면 그대로 시도
+  };
+
+  const parseCSV = (text) => {
+    // CSV의 각 줄에서 첫 번째 컬럼(이름) 추출
+    const lines = text.split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0);
+    return lines.map(line => {
+      // 간단한 CSV 파싱: 큰따옴표 안의 쉼표는 무시, 첫 번째 컬럼 사용
+      if (line.startsWith('"')) {
+        const endQuote = line.indexOf('"', 1);
+        if (endQuote !== -1) return line.slice(1, endQuote);
+      }
+      const firstComma = line.indexOf(',');
+      return firstComma === -1 ? line : line.slice(0, firstComma);
+    }).map(n => n.trim()).filter(n => n.length > 0);
+  };
+
+  const handleLoadFromGsheet = async () => {
+    const url = convertToCSVUrl(gsheetUrl);
+    if (!url) {
+      setGsheetStatus("error");
+      setGsheetMsg("구글 시트 URL을 입력해 주세요");
+      return;
+    }
+
+    setGsheetStatus("loading");
+    setGsheetMsg("구글 시트에서 명단을 불러오는 중...");
+
+    try {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const text = await response.text();
+
+      if (text.trim().toLowerCase().startsWith('<!doctype html') ||
+          text.trim().toLowerCase().startsWith('<html')) {
+        setGsheetStatus("error");
+        setGsheetMsg("시트가 비공개입니다. '링크가 있는 모든 사용자에게 공개'로 설정해주세요");
+        return;
+      }
+
+      const names = parseCSV(text);
+      if (names.length === 0) {
+        setGsheetStatus("error");
+        setGsheetMsg("시트에서 명단을 찾을 수 없습니다");
+        return;
+      }
+
+      setInitialText(names.join('\n'));
+      setGsheetStatus("success");
+      setGsheetMsg(`${names.length}명의 명단을 불러왔습니다`);
+
+    } catch (err) {
+      setGsheetStatus("error");
+      setGsheetMsg(`불러오기 실패: ${err.message}. 시트 공개 설정을 확인해 주세요`);
+    }
+  };
+
+  // 페이지 열자마자 구글시트 자동 로드
+  useEffect(() => {
+    if (!autoLoaded && !setupComplete) {
+      setAutoLoaded(true);
+      handleLoadFromGsheet();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const handleConfirmPool = () => {
     if (allNames.length < 2) {
       alert("최소 2명 이상의 참가자를 입력해 주세요.");
@@ -1057,7 +1242,56 @@ export default function App() {
               <span className="step-num">1</span>
               참가자 명단 입력
             </div>
-            <div className="pool-wrap">
+
+            <div className="import-tabs">
+              <button
+                className={`import-tab ${importTab === 'gsheet' ? 'active' : ''}`}
+                onClick={() => setImportTab('gsheet')}
+              >
+                Google Sheet 자동 로드
+              </button>
+              <button
+                className={`import-tab ${importTab === 'direct' ? 'active' : ''}`}
+                onClick={() => setImportTab('direct')}
+              >
+                직접 입력
+              </button>
+            </div>
+
+            {importTab === 'gsheet' && (
+              <div className="gsheet-wrap">
+                <div className="btn-row">
+                  <button className="btn primary" onClick={handleLoadFromGsheet}>
+                    <span className="icon">↻</span>
+                    구글 시트에서 명단 새로고침
+                  </button>
+                  <button
+                    className="btn"
+                    onClick={() => window.open(gsheetUrl, '_blank', 'noopener,noreferrer')}
+                    title="구글 시트 열기"
+                  >
+                    <span className="icon">↗</span>
+                    시트 열기
+                  </button>
+                </div>
+                {gsheetStatus && (
+                  <div className={`gsheet-status ${gsheetStatus}`}>
+                    <span className={`icon ${gsheetStatus === 'loading' ? 'spin' : ''}`}>
+                      {gsheetStatus === 'loading' ? '◈' : gsheetStatus === 'success' ? '✓' : '!'}
+                    </span>
+                    {gsheetMsg}
+                  </div>
+                )}
+                <div className="gsheet-help">
+                  <div className="help-title">사용 방법</div>
+                  <div className="help-step"><span className="help-num">①</span><span>구글 시트에 참가자 명단 입력 (A열)</span></div>
+                  <div className="help-step"><span className="help-num">②</span><span>사이트 열면 자동으로 명단 로드</span></div>
+                  <div className="help-step"><span className="help-num">③</span><span>시트 변경 시 <span className="code">새로고침</span> 버튼 클릭</span></div>
+                </div>
+              </div>
+            )}
+
+            <div className="pool-wrap" style={{marginTop: importTab === 'gsheet' ? '10px' : '0'}}>
               <textarea
                 className="pool-textarea"
                 placeholder={"전체 참가자 명단을 입력해 주세요\n한 줄에 한 명씩\n\n9803(조)\n9804(김)\n9805(이)\n..."}
@@ -1065,7 +1299,13 @@ export default function App() {
                 onChange={e => setInitialText(e.target.value)}
               />
             </div>
-            <div className="btn-row">
+            {allNames.length > 0 && (
+              <div className="gsheet-status" style={{marginTop: '8px'}}>
+                <span className="icon">◆</span>
+                현재 <strong style={{color: 'var(--gold-50)', margin: '0 4px'}}>{allNames.length}명</strong> 로드됨
+              </div>
+            )}
+            <div className="btn-row" style={{marginTop: '10px'}}>
               <button className="btn primary" onClick={handleConfirmPool} disabled={allNames.length < 2}>
                 <span className="icon">✓</span>
                 명단 확정 ({allNames.length}명)
